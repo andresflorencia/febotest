@@ -2,15 +2,15 @@ package com.florencia.febotest.fragments;
 
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,8 +18,6 @@ import com.bumptech.glide.Glide;
 import com.florencia.febotest.R;
 import com.florencia.febotest.models.Article;
 import com.florencia.febotest.utils.Utils;
-
-import org.w3c.dom.Text;
 
 public class NewsDialogFragment extends AppCompatDialogFragment {
 
@@ -60,8 +58,13 @@ public class NewsDialogFragment extends AppCompatDialogFragment {
         tvAutor.setText(myNews.author);
         tvDate.setText(myNews.publishedAt.split("T")[0]);
         tvTitle.setText(myNews.title);
-        tvDescription.setText(myNews.description);
-        tvContent.setText(myNews.content);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tvDescription.setText(Html.fromHtml(myNews.description, Html.FROM_HTML_MODE_COMPACT));
+            tvContent.setText(Html.fromHtml(myNews.content, Html.FROM_HTML_MODE_COMPACT));
+        }else {
+            tvDescription.setText(Html.fromHtml(myNews.description));
+            tvContent.setText(Html.fromHtml(myNews.content));
+        }
         tvSource.setText(myNews.source.name);
 
         Glide

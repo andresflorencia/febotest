@@ -1,9 +1,7 @@
 package com.florencia.febotest.adapters;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +17,16 @@ import com.florencia.febotest.MainActivity;
 import com.florencia.febotest.R;
 import com.florencia.febotest.fragments.NewsDialogFragment;
 import com.florencia.febotest.models.Article;
-import com.florencia.febotest.models.Category;
 import com.florencia.febotest.utils.Utils;
 
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder>{
-    public List<Article> articles;
+    public List<Article> news;
     MainActivity activity;
 
-    public NewsAdapter(MainActivity activity, List<Article> articles){
-        this.articles = articles;
+    public NewsAdapter(MainActivity activity, List<Article> news){
+        this.news = news;
         this.activity = activity;
     }
 
@@ -43,13 +40,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.bind(articles.get(position));
+        holder.bind(news.get(position));
     }
 
 
     @Override
     public int getItemCount() {
-        return articles.size();
+        return news.size();
     }
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
@@ -85,11 +82,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     .into(imgImage);
 
             itemView.setOnClickListener(v->{
-                DialogFragment dialogFragment = new NewsDialogFragment(articles.get(getAdapterPosition()));
+                DialogFragment dialogFragment = new NewsDialogFragment(NewsAdapter.this.news.get(getAdapterPosition()));
                 dialogFragment.show(activity.getSupportFragmentManager(), "dialog");
             });
 
-            tvRead.setOnClickListener(v->Utils.GoToUrl(v.getContext(), articles.get(getAdapterPosition()).url));
+            tvRead.setOnClickListener(v->Utils.GoToUrl(v.getContext(), NewsAdapter.this.news.get(getAdapterPosition()).url));
         }
     }
 }
